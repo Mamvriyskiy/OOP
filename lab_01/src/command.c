@@ -23,11 +23,13 @@ int convert_figure(struct figure_t *figure)
     int convert = figure->command;
 
     if (convert == TRANSFER_FIGURE)
-        return;
+        return 0;
     else if (convert == TURN_FIGURE)
-        return;
+        return 0;
     else if (convert == SCALE_FIGURE)
-        return;
+        return 0;
+
+    return 0;
 }
 
 

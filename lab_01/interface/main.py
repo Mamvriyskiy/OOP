@@ -12,38 +12,38 @@ import library
 class window_tk:
     def __init__(self, master):
         self.master = master 
-
         #Settings window
         master.title("Лабораторная 1")
         master.geometry("1300x800")
         # self.resizable(False, False)
 
+    def settings_menu(self):
         #Settings menu 
-        menu_frame = Frame(master, bg = "LightCyan", width = 400, height = 800)
-        menu_frame.place(x = 0, y = 0)
+        self.menu_frame = Frame(self, bg = "LightCyan", width = 400, height = 800)
+        self.menu_frame.place(x = 0, y = 0)
 
-        library_frame = Frame(master, bg = "LightCyan", width = 300, height = 200, borderwidth = 3, relief = "ridge")
+        self.library_frame = Frame(self, bg = "LightCyan", width = 300, height = 200, borderwidth = 3, relief = "ridge")
         ConvertFrame(library_frame, "Перенос", "dx", "dy", "dz", "Перенести", library.transfer)
-        library_frame.place(x = 50, y = 20)
+        self.library_frame.place(x = 50, y = 20)
 
-        turn_frame = Frame(master, bg = "LightCyan", width = 300, height = 200, borderwidth = 3, relief = "ridge")
+        self.turn_frame = Frame(self, bg = "LightCyan", width = 300, height = 200, borderwidth = 3, relief = "ridge")
         ConvertFrame(turn_frame, "Поворот", "angle x", "angle y", "angle z", "Повернуть", library.turn)
-        turn_frame.place(x = 50, y = 240)
+        self.turn_frame.place(x = 50, y = 240)
 
-        scaling_frame = Frame(master, bg = "LightCyan", width = 300, height = 200, borderwidth = 3, relief = "ridge")
+        self.scaling_frame = Frame(self, bg = "LightCyan", width = 300, height = 200, borderwidth = 3, relief = "ridge")
         ConvertFrame(scaling_frame, "Масштабирование", "kx", "ky", "kz", "Масштабировать", library.scale)
-        scaling_frame.place(x = 50, y = 490) 
+        self.scaling_frame.place(x = 50, y = 490) 
 
-        vertical_frame = Frame(master, bg = "black", width = 5, height = 800)
+        self.vertical_frame = Frame(self, bg = "black", width = 5, height = 800)
         vertical_frame.place(x = 395, y = 0)
 
-        load_button = Button(master,  bg = "LightCyan", width = 33, height = 2, \
+        self.load_button = Button(self,  bg = "LightCyan", width = 33, height = 2, \
                             text = "Загрузить фигуру", font = ("Arial", 14, "bold"), command = library.load_figure)
-        load_button.place(x = 50, y = 700)
+        self.load_button.place(x = 50, y = 700)
 
         #Settings graph
-        graph_frame = Frame(master, width = 900, height = 800)
-        graph_frame.place(x = 400, y = 0)
+        self.graph_frame = Frame(self, width = 900, height = 800)
+        self.graph_frame.place(x = 400, y = 0)
 
         fig, ax = plt.subplots(dpi = 50, figsize = (9, 7.5), facecolor = "white")
 

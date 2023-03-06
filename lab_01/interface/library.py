@@ -39,5 +39,9 @@ def load_figure():
     st.command = LOAD_FIGURE;
     libc.command_distribution(st)
 
+    a = list(st.point[:st.len_point])
+    b = list(st.connect[:st.len_connect])
+    print(st.point[0])
+    # print(b)
     # print(st.point[0], st.connect[0], st.a)
 
