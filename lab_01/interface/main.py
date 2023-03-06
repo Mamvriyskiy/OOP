@@ -1,5 +1,6 @@
 from tkinter import *
 from matplotlib import mlab
+import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
@@ -9,53 +10,88 @@ from matplotlib.backends.backend_tkagg import (
 )
 import library
 
-class window_tk:
-    def __init__(self, master):
-        self.master = master 
+matplotlib.use('TkAgg')
+
+class window_tk():
+    def __init__(self):
+        self.root = Tk()
         #Settings window
-        master.title("Лабораторная 1")
-        master.geometry("1300x800")
+        self.root.title("Лабораторная 1")
+        self.root.geometry("1300x800")
         # self.resizable(False, False)
 
     def settings_menu(self):
         #Settings menu 
-        self.menu_frame = Frame(self, bg = "LightCyan", width = 400, height = 800)
+        self.menu_frame = Frame(self.root, bg = "LightCyan", width = 400, height = 800)
         self.menu_frame.place(x = 0, y = 0)
 
-        self.library_frame = Frame(self, bg = "LightCyan", width = 300, height = 200, borderwidth = 3, relief = "ridge")
-        ConvertFrame(library_frame, "Перенос", "dx", "dy", "dz", "Перенести", library.transfer)
+        self.library_frame = Frame(self.root, bg = "LightCyan", width = 300, height = 200, borderwidth = 3, relief = "ridge")
+        ConvertFrame(self.library_frame, "Перенос", "dx", "dy", "dz", "Перенести", library.transfer)
         self.library_frame.place(x = 50, y = 20)
 
-        self.turn_frame = Frame(self, bg = "LightCyan", width = 300, height = 200, borderwidth = 3, relief = "ridge")
-        ConvertFrame(turn_frame, "Поворот", "angle x", "angle y", "angle z", "Повернуть", library.turn)
+        self.turn_frame = Frame(self.root, bg = "LightCyan", width = 300, height = 200, borderwidth = 3, relief = "ridge")
+        ConvertFrame(self.turn_frame, "Поворот", "angle x", "angle y", "angle z", "Повернуть", library.turn)
         self.turn_frame.place(x = 50, y = 240)
 
-        self.scaling_frame = Frame(self, bg = "LightCyan", width = 300, height = 200, borderwidth = 3, relief = "ridge")
-        ConvertFrame(scaling_frame, "Масштабирование", "kx", "ky", "kz", "Масштабировать", library.scale)
+        self.scaling_frame = Frame(self.root, bg = "LightCyan", width = 300, height = 200, borderwidth = 3, relief = "ridge")
+        ConvertFrame(self.scaling_frame, "Масштабирование", "kx", "ky", "kz", "Масштабировать", library.scale)
         self.scaling_frame.place(x = 50, y = 490) 
 
-        self.vertical_frame = Frame(self, bg = "black", width = 5, height = 800)
-        vertical_frame.place(x = 395, y = 0)
+        self.vertical_frame = Frame(self.root, bg = "black", width = 5, height = 800)
+        self.vertical_frame.place(x = 395, y = 0)
 
-        self.load_button = Button(self,  bg = "LightCyan", width = 33, height = 2, \
-                            text = "Загрузить фигуру", font = ("Arial", 14, "bold"), command = library.load_figure)
+        self.load_button = Button(self.root,  bg = "LightCyan", width = 33, height = 2, \
+                            text = "Загрузить фигуру", font = ("Arial", 14, "bold"), command = lambda: library.load_figure(self))
         self.load_button.place(x = 50, y = 700)
 
+    def settings_graph(self):
         #Settings graph
-        self.graph_frame = Frame(self, width = 900, height = 800)
-        self.graph_frame.place(x = 400, y = 0)
+        # self.graph_frame = Frame(self, width = 900, height = 800)
+        # self.graph_frame.place(x = 400, y = 0)
 
-        fig, ax = plt.subplots(dpi = 50, figsize = (9, 7.5), facecolor = "white")
+        margins = {
+            "left"   : 0.050,
+            "bottom" : 0.050,
+            "right"  : 0.980,
+            "top"    : 0.980
+        }
 
-        plt.axes(projection = '3d')
+        self.figure = plt.Figure(figsize=(8.5, 7.8))
+        self.figure.subplots_adjust(**margins)
+        self.subplt = self.figure.add_subplot(111, projection = "3d")
 
-        figure_canvas = FigureCanvasTkAgg(fig, graph_frame)
-        NavigationToolbar2Tk(figure_canvas, graph_frame)
+        # print(library.data_figure)
+        # self.subplt.plot(library.data_figure[0], library.data_figure[1], library.data_figure[2], color = 'k', linewidth = 2)
 
-        ax.get_yaxis().set_visible(False)
-        ax.get_xaxis().set_visible(False)
 
-        figure_canvas.get_tk_widget().pack(side = TOP, fill = BOTH, expand = 1)
+        # for func in self.funcs:
+        #     self.subplt.plot(func.x_list, func.y_list, color='k', linewidth=2)
+
+        self.subplt.set_xlim((-80, 80))
+        self.subplt.set_ylim((-80, 80))
+        self.subplt.grid(True)
+
+        self.pltcnv = FigureCanvasTkAgg(self.figure, self.root)
+        self.pltcnv.get_tk_widget().place(
+            relx = 0.308,
+            rely = 0.00,
+            relheight = 0.96,
+            relwidth = 0.70
+            )
+        
+    def create_widgets(self):
+        """
+            Создание виджетов окна
+        """
+        self.settings_menu()
+        self.settings_graph()
+ 
+    def run(self):
+        """
+            Запуск окна
+        """
+        self.create_widgets()
+        self.root.mainloop()
 
 class ConvertFrame:
     def __init__(self, master, name, a, b, c, operation, func):
@@ -85,9 +121,7 @@ class ConvertFrame:
     
 
 if __name__ == "__main__":
-    window = Tk()
+    window = window_tk()
+    window.run()
 
-    window_tk(window)
-
-    window.mainloop()
 

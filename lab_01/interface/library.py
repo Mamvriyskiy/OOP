@@ -31,7 +31,7 @@ def scale():
     libc = CDLL('libarr.so')
     libc.command_distribution()
 
-def load_figure():
+def load_figure(root):
     libc = CDLL('libarr.so')
     libc.command_distribution.argtypes = [POINTER(test_st_t)]
     libc.command_distribution.restype = c_int;
@@ -41,7 +41,7 @@ def load_figure():
 
     a = list(st.point[:st.len_point])
     b = list(st.connect[:st.len_connect])
-    print(st.point[0])
+   
     # print(b)
     # print(st.point[0], st.connect[0], st.a)
 
