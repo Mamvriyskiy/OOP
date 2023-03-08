@@ -3,6 +3,7 @@
 
 #define OK 0
 #define SCANF_OK 1
+#define SCANF_OK_TWO 2
 #define SCANF_OK_THREE 3
 
 #define NEGATIVE_SCANF -1

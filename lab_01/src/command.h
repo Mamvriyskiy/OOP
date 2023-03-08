@@ -11,8 +11,8 @@ struct figure_t {
     double a;
     double b;
     double c;
-    double *point;
-    int *connect;
+    double **point;
+    int **connect;
     int len_point;
     int len_connect;
 };

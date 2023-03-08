@@ -19,15 +19,26 @@ int load_figure_ex(struct figure_t *figure)
         fclose(file);
     }
 
-    // for (int i = 0; i < figure->len_point; i++)
-    //     printf("%lf ", figure->point[i]);
-
     return rc;
 }
 
 int load_figure(FILE *file, struct figure_t *figure)
 {
     int rc = OK;
+
+    if (figure->len_connect != 0)
+    {
+        free_matrix_connect(figure->connect, 2);
+        figure->connect = NULL;
+        figure->len_connect = 0;
+    }
+
+    if (figure->len_point != 0)
+    {
+        free_matrix_point(figure->point, 3);
+        figure->point = NULL;
+        figure->len_point = 0;
+    }
 
     rc = create_point_ex(file, &(figure->point), &(figure->len_point));
 
@@ -37,14 +48,14 @@ int load_figure(FILE *file, struct figure_t *figure)
     return rc;
 }
 
-int create_point_ex(FILE *file, double **point, int *lenl)
+int create_point_ex(FILE *file, double ***point, int *lenl)
 {
     int rc = OK;
 
     rc = read_len(file, lenl);
 
-    if (!rc)
-        *point = allocated_point(*lenl);
+    if (!rc && !*point)
+        *point = allocated_point(*lenl, 3);
 
     if (*point)
         rc = read_point(file, *point, *lenl);
@@ -54,14 +65,14 @@ int create_point_ex(FILE *file, double **point, int *lenl)
     return rc;
 }
 
-int create_connect_ex(FILE *file, int **connect, int *lenl)
+int create_connect_ex(FILE *file, int ***connect, int *lenl)
 {
     int rc = OK;
 
     rc = read_len(file, lenl);
 
     if (!rc)
-        *connect = allocated_connect(*lenl);
+        *connect = allocated_connect(*lenl, 2);
 
     if (*connect)
         rc = read_connect(file, *connect, *lenl);

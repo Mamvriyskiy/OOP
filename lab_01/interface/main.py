@@ -46,8 +46,6 @@ class window_tk():
 
     def settings_graph(self):
         #Settings graph
-        # self.graph_frame = Frame(self, width = 900, height = 800)
-        # self.graph_frame.place(x = 400, y = 0)
 
         margins = {
             "left"   : 0.050,
@@ -63,13 +61,17 @@ class window_tk():
         # print(library.data_figure)
         # self.subplt.plot(library.data_figure[0], library.data_figure[1], library.data_figure[2], color = 'k', linewidth = 2)
 
+        # print(library.point_figure)
+        # if (len(library.point_figure) != 0):
+        #     a = library.point_figure[0]
+        #     b = library.point_figure[1]
+        #     c = library.point_figure[2]
+        #     self.subplt.plot(a, b, c, color = 'k', linewidth = 2)
+            # self.subplt.plot(a[2:], b[2:], c[2:], color = 'k', linewidth = 2)
 
-        # for func in self.funcs:
-        #     self.subplt.plot(func.x_list, func.y_list, color='k', linewidth=2)
-
-        self.subplt.set_xlim((-80, 80))
-        self.subplt.set_ylim((-80, 80))
-        self.subplt.grid(True)
+        # self.subplt.set_xlim((-80, 80))
+        # self.subplt.set_ylim((-80, 80))
+        # self.subplt.grid(True)
 
         self.pltcnv = FigureCanvasTkAgg(self.figure, self.root)
         self.pltcnv.get_tk_widget().place(
