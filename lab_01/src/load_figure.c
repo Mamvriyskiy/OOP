@@ -9,73 +9,85 @@ int load_figure_ex(struct figure_t *figure)
 {
     int rc = OK;
 
+    points_array_t points_struct;
+    connect_array_t connect_struct;
+
+    inicialization_points_strcut(&points_struct);
+    inicialization_connect_strcut(&connect_struct);
+    
+    rc = load_figure(&points_struct, &connect_struct);
+
+    //преобразование матриц в массив координат фигуры
+
+    for (int i = 0; i < points_struct.lenl; i++)
+    {
+        figure->list.x_list[i] = points_struct.list[0][i];
+        figure->list.y_list[i] = points_struct.list[1][i];
+        figure->list.z_list[i] = points_struct.list[2][i];
+    }
+
+    figure->len_list = points_struct.lenl;
+
+
+    // printf("\n");
+
+    // for (int i = 0; i < connect_struct.lenl; i++)
+    //     printf("%d ", connect_struct.list[0][i]);
+
+
+    free_matrix_point(points_struct.list, points_struct.lenl);
+    free_matrix_connect(connect_struct.list, connect_struct.lenl);
+
+    return rc;
+}
+
+int load_figure(points_array_t *points_struct, connect_array_t *connect_struct)
+{
+    int rc = OK;
+
     FILE *file = fopen("./data/data_1.txt", "r");
 
     if (!file)
         rc = NO_OPEN_FILE;
-    else
+
+    if (!rc)
     {
-        rc = load_figure(file, figure);
+        rc = create_point_ex(file, &(points_struct->list), &(points_struct->lenl));
+        if (!rc)
+            rc = create_connect_ex(file, &(connect_struct->list), &(connect_struct->lenl));
+
         fclose(file);
     }
 
     return rc;
 }
 
-int load_figure(FILE *file, struct figure_t *figure)
-{
-    int rc = OK;
-
-    if (figure->len_connect != 0)
-    {
-        free_matrix_connect(figure->connect, 2);
-        figure->connect = NULL;
-        figure->len_connect = 0;
-    }
-
-    if (figure->len_point != 0)
-    {
-        free_matrix_point(figure->point, 3);
-        figure->point = NULL;
-        figure->len_point = 0;
-    }
-
-    rc = create_point_ex(file, &(figure->point), &(figure->len_point));
-
-    if (!rc)
-        rc = create_connect_ex(file, &(figure->connect), &(figure->len_connect)); 
-
-    return rc;
-}
-
-int create_point_ex(FILE *file, double ***point, int *lenl)
+int create_connect_ex(FILE *file, int ***connect_array, int *lenl)
 {
     int rc = OK;
 
     rc = read_len(file, lenl);
 
-    if (!rc && !*point)
-        *point = allocated_point(*lenl, 3);
+    *connect_array = allocated_connect(*lenl, 2);
 
-    if (*point)
-        rc = read_point(file, *point, *lenl);
+    if (connect_array)
+        rc = read_connect(file, *connect_array, *lenl);
     else
         rc = NEGATIVE_ALLOCATED;
 
     return rc;
 }
 
-int create_connect_ex(FILE *file, int ***connect, int *lenl)
+int create_point_ex(FILE *file, double ***points_array, int *lenl)
 {
     int rc = OK;
 
     rc = read_len(file, lenl);
 
-    if (!rc)
-        *connect = allocated_connect(*lenl, 2);
+    *points_array = allocated_point(*lenl, 3);
 
-    if (*connect)
-        rc = read_connect(file, *connect, *lenl);
+    if (points_array)
+        rc = read_point(file, *points_array, *lenl);
     else
         rc = NEGATIVE_ALLOCATED;
 

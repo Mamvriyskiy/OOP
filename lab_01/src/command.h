@@ -6,15 +6,17 @@
 #define TURN_FIGURE 3
 #define SCALE_FIGURE 4
 
+struct points_t
+{
+    double *x_list;
+    double *y_list;
+    double *z_list;
+};
+
 struct figure_t {
     int command;
-    double a;
-    double b;
-    double c;
-    double **point;
-    int **connect;
-    int len_point;
-    int len_connect;
+    struct points_t list;
+    int len_list;
 };
 
 int command_distribution(struct figure_t *test);

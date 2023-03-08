@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "allocated.h"
+#include "load_figure.h"
 
 double **allocated_point(int n, int m)
 {
@@ -56,4 +57,16 @@ void free_matrix_connect(int **data, int n)
         free(data[i]);
     
     free(data);
+}
+
+void inicialization_connect_strcut(connect_array_t *a)
+{
+    a->list = NULL;
+    a->lenl = 0;
+}
+
+void inicialization_points_strcut(points_array_t *a)
+{
+    a->list = NULL;
+    a->lenl = 0;
 }

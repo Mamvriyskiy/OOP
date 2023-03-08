@@ -17,7 +17,6 @@ int command_distribution(struct figure_t *figure)
     return error;
 }
 
-
 int convert_figure(struct figure_t *figure)
 {
     int convert = figure->command;
