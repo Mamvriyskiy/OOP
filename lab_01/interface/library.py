@@ -44,7 +44,7 @@ def load_figure(root):
     st.command = LOAD_FIGURE;
     libc.command_distribution(st)
 
-    print(st.points.x_list[:st.len_list])
+    print(st.points.x_list[:50])
 
 
     # point_figure.clear()

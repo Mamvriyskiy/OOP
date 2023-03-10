@@ -5,17 +5,17 @@
 
 double **allocated_point(int n, int m)
 {
-    double **data = malloc(m * sizeof(double*));
+    double **data = malloc(n * sizeof(double*));
 
     if (!data)
         return NULL;
     
     for (int i = 0; i < n; i++)
     {
-        data[i] = malloc(n * sizeof(double));
+        data[i] = malloc(m * sizeof(double));
         if (!data[i])
         {
-            free_matrix_point(data, m);
+            free_matrix_point(data, n);
             return NULL;
         }
     }
@@ -25,17 +25,17 @@ double **allocated_point(int n, int m)
 
 int **allocated_connect(int n, int m)
 {
-    int **data = malloc(m * sizeof(int*));
+    int **data = malloc(n * sizeof(int*));
 
     if (!data)
         return NULL;
     
     for (int i = 0; i < n; i++)
     {
-        data[i] = malloc(n * sizeof(int));
+        data[i] = malloc(m * sizeof(int));
         if (!data[i])
         {
-            free_matrix_connect(data, m);
+            free_matrix_connect(data, n);
             return NULL;
         }
     }

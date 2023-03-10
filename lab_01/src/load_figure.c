@@ -34,9 +34,11 @@ int load_figure_ex(struct figure_t *figure)
     // for (int i = 0; i < connect_struct.lenl; i++)
     //     printf("%d ", connect_struct.list[0][i]);
 
+    if (points_struct.list)
+        free_matrix_point(points_struct.list, 3);
 
-    free_matrix_point(points_struct.list, points_struct.lenl);
-    free_matrix_connect(connect_struct.list, connect_struct.lenl);
+    if (connect_struct.list)
+        free_matrix_connect(connect_struct.list, 2);
 
     return rc;
 }
@@ -68,7 +70,7 @@ int create_connect_ex(FILE *file, int ***connect_array, int *lenl)
 
     rc = read_len(file, lenl);
 
-    *connect_array = allocated_connect(*lenl, 2);
+    *connect_array = allocated_connect(2, *lenl);
 
     if (connect_array)
         rc = read_connect(file, *connect_array, *lenl);
@@ -84,7 +86,7 @@ int create_point_ex(FILE *file, double ***points_array, int *lenl)
 
     rc = read_len(file, lenl);
 
-    *points_array = allocated_point(*lenl, 3);
+    *points_array = allocated_point(3, *lenl);
 
     if (points_array)
         rc = read_point(file, *points_array, *lenl);
