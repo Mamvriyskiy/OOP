@@ -4,6 +4,7 @@
 #include "work_file.h"
 #include "allocated.h"
 #include "errors.h"
+#include "create_coords.h"
 
 int load_figure_ex(struct figure_t *figure)
 {
@@ -18,21 +19,7 @@ int load_figure_ex(struct figure_t *figure)
     rc = load_figure(&points_struct, &connect_struct);
 
     //преобразование матриц в массив координат фигуры
-
-    for (int i = 0; i < points_struct.lenl; i++)
-    {
-        figure->list.x_list[i] = points_struct.list[0][i];
-        figure->list.y_list[i] = points_struct.list[1][i];
-        figure->list.z_list[i] = points_struct.list[2][i];
-    }
-
-    figure->len_list = points_struct.lenl;
-
-
-    // printf("\n");
-
-    // for (int i = 0; i < connect_struct.lenl; i++)
-    //     printf("%d ", connect_struct.list[0][i]);
+    create_matrix_coords(figure, points_struct.list, connect_struct);
 
     if (points_struct.list)
         free_matrix_point(points_struct.list, 3);
@@ -47,7 +34,7 @@ int load_figure(points_array_t *points_struct, connect_array_t *connect_struct)
 {
     int rc = OK;
 
-    FILE *file = fopen("./data/data_1.txt", "r");
+    FILE *file = fopen("./data/data_3.txt", "r");
 
     if (!file)
         rc = NO_OPEN_FILE;

@@ -7,68 +7,101 @@ TRANSFER_FIGURE = 2
 TURN_FIGURE = 3
 SCALE_FIGURE = 4
 
-class Point(Structure):
-    _fields_ = [("x_list", POINTER(c_double)), 
-                ("y_list", POINTER(c_double)),
-                ("z_list", POINTER(c_double))]
+    
+class Data(Structure):
+    _fields_ = [("kx", c_double),
+                ("ky", c_double),
+                ("kz", c_double),
+                ("dx", c_double),
+                ("dy", c_double),
+                ("dz", c_double),]
 
 class Points_array(Structure):
-    _fields_ = [
-                ("command", c_int),
-                ("points", Point),
+    _fields_ = [("x_list", POINTER(c_double)), 
+                ("y_list", POINTER(c_double)),
+                ("z_list", POINTER(c_double)),
                 ("len_list", c_int)]
 
 x_list =(c_double * 50)()
 y_list =(c_double * 50)()
 z_list =(c_double * 50)()
-st = Points_array(0, Point(x_list, y_list, z_list), 0)
 
-def transfer():
+data = Data(0, 0, 0, 0, 0, 0)
+st = Points_array(x_list, y_list, z_list, 0)
+
+
+def transfer(root):
     pass
-    # data_figure = list(st.data[:st.len_data])
+    # st.command = TRANSFER_FIGURE;
+    # libc = CDLL('libarr.so')
+    # libc.command_distribution.argtypes = [POINTER(Points_array)]
+    # libc.command_distribution.restype = c_int;
 
-def turn():
-    libc = CDLL('libarr.so')
-    libc.command_distribution()
+    # dx = root.a_entry.get()
+    # dy = root.b_entry.get()
+    # dz = root.c_entry.get()
 
-def scale():
-    libc = CDLL('libarr.so')
-    libc.command_distribution()
+    # st.dx = float(dx);
+    # st.dy = float(dy);
+    # st.dz = float(dz);
+
+    # libc.command_distribution(st)
+
+    # root.settings_graph()
+
+def turn(root):
+    pass
+    # st.command = SCALE_FIGURE;
+    # libc = CDLL('libarr.so')
+
+    # libc.command_distribution.argtypes = [POINTER(Points_array)]
+    # libc.command_distribution.restype = c_int;
+
+    # dx = root.ta_entry.get()
+    # dy = root.tb_entry.get()
+    # dz = root.tc_entry.get()
+
+    # st.dx = float(dx);
+    # st.dy = float(dy);
+    # st.dz = float(dz);
+
+    # libc.command_distribution(st)
+
+    # root.settings_graph()
+
+
+def scale(root):
+    pass
+    # st.command = SCALE_FIGURE;
+    # libc = CDLL('libarr.so')
+
+    # libc.command_distribution.argtypes = [POINTER(Points_array)]
+    # libc.command_distribution.restype = c_int;
+
+    # dx = root.aa_entry.get()
+    # dy = root.ab_entry.get()
+    # dz = root.ac_entry.get()
+
+    # kx = root.aa_entry.get()
+    # ky = root.ab_entry.get()
+    # kz = root.ac_entry.get()
+
+    # st.dx = float(dx);
+    # st.dy = float(dy);
+    # st.dz = float(dz);
+
+
+    # libc.command_distribution(st)
+
+    # root.settings_graph()
 
 def load_figure(root):
+    st.command = LOAD_FIGURE;
     libc = CDLL('libarr.so')
-    libc.command_distribution.argtypes = [POINTER(Points_array)]
+    libc.command_distribution.argtypes = [POINTER(Points_array), c_int, Data]
     libc.command_distribution.restype = c_int;
 
-
-    st.command = LOAD_FIGURE;
     libc.command_distribution(st)
 
-    print(st.points.x_list[:50])
-
-
-    # point_figure.clear()
-    # point_figure.append(list(st.point[0][:st.len_point]))
-    # point_figure.append(list(st.point[1][:st.len_point]))
-    # point_figure.append(list(st.point[2][:st.len_point]))
-
-
-    # connect_figure.clear()
-    # connect_figure.append(list(st.connect[0][:st.len_connect]))
-    # connect_figure.append(list(st.connect[1][:st.len_connect]))
-
-    # a = point_figure
-
-    # point_figure.clear()
-
-    # for i in connect_figure[0]:
-        
-
-
-
-    # print(point_figure)
-    # print(connect_figure)
-
-    
     root.settings_graph()
 
