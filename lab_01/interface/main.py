@@ -130,9 +130,9 @@ class window_tk():
 
         if (library.st.len_list != 0):
             lenl = library.st.len_list
-            a = library.st.points.x_list[:lenl]
-            b = library.st.points.y_list[:lenl]
-            c = library.st.points.z_list[:lenl]
+            a = library.st.x_list[:lenl]
+            b = library.st.y_list[:lenl]
+            c = library.st.z_list[:lenl]
             
             self.subplt.plot(a, b, c, color = 'k', linewidth = 2)
 

@@ -4,11 +4,11 @@
 #include "command.h"
 #include "load_figure.h"
 
-#define THREE_LEN 3
+#define ONE_LEN 1
 
 void create_matrix_coords(struct figure_t *figure, double **matrix, connect_array_t connect_struct);
 
-int add_coords_ex(struct figure_t *figure, double **matrix, int index);
+void add_coords_ex(struct figure_t *figure, double **matrix, int index);
 
 void transfer_figure(struct figure_t *figure, struct data_t data);
 // void change_coords_plus(struct points_t *list, int k, struct data_t data);

@@ -3,34 +3,31 @@
 #include "load_figure.h"
 #include "create_coords.h"
 
-
 void create_matrix_coords(struct figure_t *figure, double **matrix, connect_array_t connect_struct)
 {
     int lenl = connect_struct.lenl;
 
+    printf("%d", lenl);
     for (int i = 0; i < lenl; i++)
     {
-        int k = 0;
-
         int x = connect_struct.list[0][i];
         int y = connect_struct.list[1][i];
 
-        k += add_coords_ex(figure, matrix, x);
-        k += add_coords_ex(figure, matrix, y);
-        k += add_coords_ex(figure, matrix, x);
+        add_coords_ex(figure, matrix, x);
+        add_coords_ex(figure, matrix, y);
+        add_coords_ex(figure, matrix, x);
 
-        figure->len_list += k;
     }
 }
 
-int add_coords_ex(struct figure_t *figure, double **matrix, int index)
+void add_coords_ex(struct figure_t *figure, double **matrix, int index)
 {
     int k = figure->len_list;
     figure->x_list[k] = matrix[0][index];
     figure->y_list[k] = matrix[1][index];
     figure->z_list[k] = matrix[2][index];
 
-    return THREE_LEN;
+    (figure->len_list)++;
 }
 
 // void transfer_figure(struct figure_t *figure, struct data_t data)

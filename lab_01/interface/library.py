@@ -96,12 +96,13 @@ def scale(root):
     # root.settings_graph()
 
 def load_figure(root):
-    st.command = LOAD_FIGURE;
     libc = CDLL('libarr.so')
     libc.command_distribution.argtypes = [POINTER(Points_array), c_int, Data]
-    libc.command_distribution.restype = c_int;
+    libc.command_distribution.restype = c_int
 
-    libc.command_distribution(st)
+    libc.command_distribution(st, LOAD_FIGURE, data)
+
+    print(st.x_list[:st.len_list])
 
     root.settings_graph()
 
